@@ -10,13 +10,16 @@ import pyperclip
 ###Functions###
 
 def new_pwd(pwd_length):
+    """ This function runs a continous loop of generating objects of the 
+    pwd-class. If the password generated is not acceptable, it will be 
+    deleted, and a new one made until one is accetable"""
     cont = True
     while cont:
         new_password = pwd(pwd_length)
         pyperclip.copy(new_password.pwd_o)
-        print(f"New password(length: {pwd_length}) is:\n\n{new_password}\n\n(Copied to clipboard)")
-        ans = input(f"Is this acceptable?(y/n) ")
-        if ans == "y":
+        print(f"New password(length: {pwd_length}) is\n\n{new_password}\n\n(Copied to clipboard)")
+        ans = input(f"Is this acceptable(anything other than 'y' will generate a new password? ")
+        if ans=="y":
             cont = False
             return new_password
         else:
@@ -26,7 +29,7 @@ def new_pwd(pwd_length):
 
 class pwd:
     """The pwd class. used to generate the password"""
-    def __init__(self, length):
+    def __init__(self, length) -> None:
         self.length = length
         self.pwd_o = ""
         self.alternatives = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",0,1,2,3,4,5,6,7,8,9,"!","#","%","&","$","-",";",":","=","@"]
@@ -36,7 +39,7 @@ class pwd:
         return None
 
     def __str__(self):
-        """If the object is called, return the pwd"""
+        """If the object itself is called, return the pwd"""
         return self.pwd_o
 
     def generator (self):
@@ -67,20 +70,23 @@ class pwd:
 ###Main###
 
 def main(argv):
-    """Main function"""
-    #First check if a system argument was given, and try to make it an integer, if nothing, default is 12 chars
+    """Main function
+
+    First check if a system argument was given, and try to make it an integer.
+    If not an integer or no argument, set default password length to 12 chars"""
     try:
         pwd_length = int(argv[1])
-    except:
-        pwd_length = 12
+    except ValueError:
+        pwd_length = 12  # Not an integer, default 12
+    except IndexError:
+        pwd_length = 12  # No arguments, default 12
 
-    cont = True
     pwd_obj_list = []
     pwd_obj_list.append(new_pwd(pwd_length))
-    print(pwd_obj_list[0])
 
     #Exit
     print("\n")
     return 0
 
-main(sys.argv)
+if __name__ == "__main__":
+    main(sys.argv)
