@@ -1,7 +1,7 @@
 
-# Pwd-Generator
+# pwgen
 
-Pwd-Generator is a simple python script that will generate a string of varying length consisting of random letters, digits and special characters using a set of alternatives.
+pwdgen is a simple python script that will generate a string of varying length consisting of random letters, digits and special characters using a set of alternatives.
 
 ## Installation
 
