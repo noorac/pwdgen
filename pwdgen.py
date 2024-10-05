@@ -21,7 +21,7 @@ class Pwd(object):
         Special Characters use s_characters instead
         of s_characters_all as default. This is a subset of
         all punctuation to prevent difficult to 
-        press punctuation like [ on non english keyboards.
+        use certain punctuation like [ on non english keyboards.
 
         In the future, potentially using cmd args s_characters_all
         can be activated and used should the user want it.
