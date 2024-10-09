@@ -55,8 +55,7 @@ class Pwd(object):
 
 def main(argv) -> None:
     """
-    Main function
-
+    Main function::
     First check if a system argument was given, and try to make it an integer.
     If not an integer or no argument, set default password length to 12 chars
     """
