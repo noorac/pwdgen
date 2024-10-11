@@ -10,7 +10,7 @@ import pyperclip
 
 
 class Pwd(object):
-    """The pwd class. used to generate the password"""
+    """The pwd class. used to generate and store the password"""
     def __init__(self, length) -> None:
         self.length = length  # Num. of characters
         self.pwd_o = ""  # The output string for the password
