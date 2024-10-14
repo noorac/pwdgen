@@ -7,27 +7,23 @@ import string
 import sys
 import random
 import pyperclip
-
+import argparse
 
 class Pwd(object):
     """The pwd class. used to generate and store the password"""
-    def __init__(self, length) -> None:
+    def __init__(self, length, use_all_special) -> None:
         self.length = length  # Num. of characters
+        self.use_all_special = use_all_special # Use all special characters
         self.pwd_o = ""  # The output string for the password
         self.letters = list(string.ascii_letters[:26])
         self.letters_c = list(string.ascii_letters[26:])
         self.numbers = list(string.digits)
-        """
-        Special Characters use s_characters instead
-        of s_characters_all as default. This is a subset of
-        all punctuation to prevent difficult to 
-        use certain punctuation like [ on non english keyboards.
-
-        In the future, potentially using cmd args s_characters_all
-        can be activated and used should the user want it.
-        """
-        self.s_characters = ["!","#","%","&","$","-",";",":","=","@"] 
-        self.s_characters_all = list(string.punctuation)
+        # Decide to use all special characters or not
+        if self.use_all_special == True:
+            self.s_characters = list(string.punctuation)
+        elif self.use_all_special == False:
+            self.s_characters = ["!","#","%","&","$","-",";",":","=","@"] 
+        # Put all  options into one big bowl
         self.alternatives = self.letters + self.letters_c + self.numbers + self.s_characters
         self.pwd = []  # Each list item is a character in the password
         self.generator()  # Generate a password
@@ -59,19 +55,39 @@ def main(argv) -> None:
     First check if a system argument was given, and try to make it an integer.
     If not an integer or no argument, set default password length to 12 chars
     """
+    # Create parser object
+    parser = argparse.ArgumentParser(
+        prog="pwdgen",
+        description="Generates a password of varying strength based on userinput",
+        epilog="Try again")
+    parser.add_argument("-l", metavar="int", type=str, help="Enter length of pwd as an integer, default 12")
+    parser.add_argument("-s", help="This flag will add all special characters to list of possibilities",
+                        action="store_const", const=True)
+    args = parser.parse_args()
 
-    try:
-        pwd_length = int(argv[1])
-    except ValueError:
-        pwd_length = 12  # Not an integer, default 12
-    except IndexError:
-        pwd_length = 12  # No arguments, default 12
+    # Check for length argument
+    if args.l == None:
+        pwd_length = 12
+    else:
+        try:
+            pwd_length = int(args.l)
+        except ValueError:
+            print("ValueError: invalid argument for -l. Expected <type> int")
+            print(parser.print_help())
+            exit()
+
+    # Check for all special characters argument
+    use_all_special = args.s
+    if use_all_special:
+        use_all_special = True
+    elif not use_all_special:
+        use_all_special = False
 
     while True:
-        new_password = Pwd(pwd_length)  # New password
+        new_password = Pwd(pwd_length, use_all_special)  # New password
         pyperclip.copy(new_password.pwd_o)  # Copy to clipboard
-        print(f"New password is\n(length: {pwd_length})\n\n{new_password}\n\n(Copied to clipboard)")
-        ans = input(f"Is this acceptable(anything other than 'y' will generate a new password? ")
+        print(f"New password(length: {new_password.length}, all_special: {new_password.use_all_special})\n\n{new_password}\n")
+        ans = input(f"(Copied to clipboard, y to exit, any to regenerate)")
         if ans == "y":
             break  # Pwd acceptable
         else:
