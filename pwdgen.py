@@ -47,7 +47,7 @@ class Pwd(object):
     def generator(self) -> None:
         """Generate the password itself"""
         self.pwd = []  # Resets self.pwd list
-        for i in range(self.length):
+        for _ in range(self.length):
             self.pwd.insert(len(self.alternatives)+1, self.alternatives[random.randint(0, len(self.alternatives))-1])
         return None
 
@@ -59,7 +59,7 @@ class Pwd(object):
         return None
 
 
-def main(argv) -> None:
+def main() -> None:
     """
     Main function::
     First check if a system argument was given, and try to make it an integer.
@@ -124,4 +124,4 @@ def main(argv) -> None:
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()
