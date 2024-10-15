@@ -9,6 +9,13 @@ import random
 import pyperclip
 import argparse
 
+def toggle_flags(arg) ->  bool:
+    if arg:
+        arg = True
+    elif not arg:
+        arg = False
+    return arg
+
 class Pwd(object):
     """The pwd class. used to generate and store the password"""
     def __init__(self, length, use_all_special) -> None:
@@ -63,6 +70,11 @@ def main(argv) -> None:
     parser.add_argument("-l", metavar="int", type=str, help="Enter length of pwd as an integer, default 12")
     parser.add_argument("-s", help="This flag will add all special characters to list of possibilities",
                         action="store_const", const=True)
+    parser.add_argument("-c", help="Flag for must-have at least 1 lower case characters", action="store_const", const=False)
+    parser.add_argument("-u", help="Flag for must-have at least 1 upper case characters", action="store_const", const=False)
+    parser.add_argument("-n", help="Flag for must-have at least 1 number", action="store_const", const=False)
+    parser.add_argument("-p", help="Flag for must-have at least 1 special", action="store_const", const=False)
+    parser.add_argument("-a", help="Flag for must-have at least 1 all types", action="store_const", const=False)
     args = parser.parse_args()
 
     # Check for length argument
@@ -77,11 +89,22 @@ def main(argv) -> None:
             exit()
 
     # Check for all special characters argument
-    use_all_special = args.s
-    if use_all_special:
-        use_all_special = True
-    elif not use_all_special:
-        use_all_special = False
+    use_all_special = toggle_flags(args.s)
+    # Check for min requirements, store requirements in a list
+    # Contents are: lower, upper, number, special
+    min_requirements = []
+    min_requirements.append(toggle_flags(args.c))
+    min_requirements.append(toggle_flags(args.u))
+    min_requirements.append(toggle_flags(args.n))
+    min_requirements.append(toggle_flags(args.p))
+
+    # Check if the all flag was used, and set all in min_requirements to True if all flag was used
+    min_one_each = toggle_flags(args.a)
+    if min_one_each:
+        for i in range(len(min_requirements)):
+            min_requirements[i] = True
+    elif not min_one_each:
+        pass
 
     while True:
         new_password = Pwd(pwd_length, use_all_special)  # New password
