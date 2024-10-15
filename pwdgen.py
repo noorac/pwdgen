@@ -9,27 +9,30 @@ import random
 import pyperclip
 import argparse
 
-def toggle_flags(arg) ->  bool:
+
+def toggle_flags(arg) -> bool:
     if arg:
         arg = True
     elif not arg:
         arg = False
     return arg
 
+
 class Pwd(object):
     """The pwd class. used to generate and store the password"""
+
     def __init__(self, length, use_all_special) -> None:
         self.length = length  # Num. of characters
-        self.use_all_special = use_all_special # Use all special characters
+        self.use_all_special = use_all_special  # Use all special characters
         self.pwd_o = ""  # The output string for the password
         self.letters = list(string.ascii_letters[:26])
         self.letters_c = list(string.ascii_letters[26:])
         self.numbers = list(string.digits)
         # Decide to use all special characters or not
-        if self.use_all_special == True:
+        if self.use_all_special is True:
             self.s_characters = list(string.punctuation)
-        elif self.use_all_special == False:
-            self.s_characters = ["!","#","%","&","$","-",";",":","=","@"] 
+        elif self.use_all_special is False:
+            self.s_characters = ["!", "#", "%", "&", "$", "-", ";", ":", "=", "@"]
         # Put all  options into one big bowl
         self.alternatives = self.letters + self.letters_c + self.numbers + self.s_characters
         self.pwd = []  # Each list item is a character in the password
@@ -41,11 +44,11 @@ class Pwd(object):
         """If the object itself is called, return the pwd"""
         return self.pwd_o
 
-    def generator (self) -> None:
+    def generator(self) -> None:
         """Generate the password itself"""
         self.pwd = []  # Resets self.pwd list
         for i in range(self.length):
-            self.pwd.insert(len(self.alternatives)+1,self.alternatives[random.randint(0,len(self.alternatives))-1])
+            self.pwd.insert(len(self.alternatives)+1, self.alternatives[random.randint(0, len(self.alternatives))-1])
         return None
 
     def pwd_str(self) -> None:
@@ -78,7 +81,7 @@ def main(argv) -> None:
     args = parser.parse_args()
 
     # Check for length argument
-    if args.l == None:
+    if args.l is None:
         pwd_length = 12
     else:
         try:
