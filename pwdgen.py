@@ -1,5 +1,5 @@
 # pwdgen:
-# This program will generate passwords of varying length, and thus varying strength
+# This program will generate passwords of varying length, and thus varying strength!
 # Dependency arch xclip, pyperclip
 
 
