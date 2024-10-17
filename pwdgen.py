@@ -3,11 +3,11 @@
 # Dependency arch xclip, pyperclip
 
 
-import string
-import sys
-import random
-import pyperclip
 import argparse
+import random
+import string
+
+import pyperclip
 
 
 def toggle_flags(arg) -> bool:
@@ -34,7 +34,9 @@ class Pwd(object):
         elif self.use_all_special is False:
             self.s_characters = ["!", "#", "%", "&", "$", "-", ";", ":", "=", "@"]
         # Put all  options into one big bowl
-        self.alternatives = self.letters + self.letters_c + self.numbers + self.s_characters
+        self.alternatives = (
+            self.letters + self.letters_c + self.numbers + self.s_characters
+        )
         self.pwd = []  # Each list item is a character in the password
         self.generator()  # Generate a password
         self.pwd_str()  # Turn it into a string
@@ -48,14 +50,17 @@ class Pwd(object):
         """Generate the password itself"""
         self.pwd = []  # Resets self.pwd list
         for _ in range(self.length):
-            self.pwd.insert(len(self.alternatives)+1, self.alternatives[random.randint(0, len(self.alternatives))-1])
+            self.pwd.insert(
+                len(self.alternatives) + 1,
+                self.alternatives[random.randint(0, len(self.alternatives)) - 1],
+            )
         return None
 
     def pwd_str(self) -> None:
         """Turn the pwd_list into a str"""
         self.pwd_o = ""  # Reset output string
         for i in range(len(self.pwd)):
-            self.pwd_o += str(self.pwd[i-1])
+            self.pwd_o += str(self.pwd[i - 1])
         return None
 
 
@@ -69,15 +74,50 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         prog="pwdgen",
         description="Generates a password of varying strength based on userinput",
-        epilog="Try again")
-    parser.add_argument("-l", metavar="int", type=str, help="Enter length of pwd as an integer, default 12")
-    parser.add_argument("-s", help="This flag will add all special characters to list of possibilities",
-                        action="store_const", const=True)
-    parser.add_argument("-c", help="Flag for must-have at least 1 lower case characters", action="store_const", const=False)
-    parser.add_argument("-u", help="Flag for must-have at least 1 upper case characters", action="store_const", const=False)
-    parser.add_argument("-n", help="Flag for must-have at least 1 number", action="store_const", const=False)
-    parser.add_argument("-p", help="Flag for must-have at least 1 special", action="store_const", const=False)
-    parser.add_argument("-a", help="Flag for must-have at least 1 all types", action="store_const", const=False)
+        epilog="Try again",
+    )
+    parser.add_argument(
+        "-l",
+        metavar="int",
+        type=str,
+        help="Enter length of pwd as an integer, default 12",
+    )
+    parser.add_argument(
+        "-s",
+        help="This flag will add all special characters to list of possibilities",
+        action="store_const",
+        const=True,
+    )
+    parser.add_argument(
+        "-c",
+        help="Flag for must-have at least 1 lower case characters",
+        action="store_const",
+        const=False,
+    )
+    parser.add_argument(
+        "-u",
+        help="Flag for must-have at least 1 upper case characters",
+        action="store_const",
+        const=False,
+    )
+    parser.add_argument(
+        "-n",
+        help="Flag for must-have at least 1 number",
+        action="store_const",
+        const=False,
+    )
+    parser.add_argument(
+        "-p",
+        help="Flag for must-have at least 1 special",
+        action="store_const",
+        const=False,
+    )
+    parser.add_argument(
+        "-a",
+        help="Flag for must-have at least 1 all types",
+        action="store_const",
+        const=False,
+    )
     args = parser.parse_args()
 
     # Check for length argument
@@ -112,7 +152,9 @@ def main() -> None:
     while True:
         new_password = Pwd(pwd_length, use_all_special)  # New password
         pyperclip.copy(new_password.pwd_o)  # Copy to clipboard
-        print(f"New password(length: {new_password.length}, all_special: {new_password.use_all_special})\n\n{new_password}\n")
+        print(
+            f"New password(length: {new_password.length}, all_special: {new_password.use_all_special})\n\n{new_password}\n"
+        )
         ans = input(f"(Copied to clipboard, y to exit, any to regenerate)")
         if ans == "y":
             break  # Pwd acceptable
