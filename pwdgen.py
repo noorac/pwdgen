@@ -1,6 +1,6 @@
 # pwdgen:
 # This program will generate passwords of varying length, and thus varying strength!
-# Dependency arch xclip, pyperclip
+# Dependency arch xclip for X users, or wl-clipboard for wayland users, pyperclip
 
 
 import argparse
