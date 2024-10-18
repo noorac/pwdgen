@@ -154,7 +154,7 @@ def main() -> None:
         print(
             f"New password(length: {new_password.length}, all_special: {new_password.use_all_special})\n\n{new_password}\n"
         )
-        ans = input(f"(Copied to clipboard, y to exit, any to regenerate)")
+        ans = input(f"(Copied to clipboard, y to exit, any to regenerate) ")
         if ans == "y":
             break  # Pwd acceptable
         else:
