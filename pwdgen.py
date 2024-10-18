@@ -6,7 +6,6 @@
 import argparse
 import random
 import string
-
 import pyperclip
 
 
