@@ -30,6 +30,8 @@ class Pwd(object):
         self.numbers = list(string.digits)
         # lower, upper, number, special
         self.min_c, self.min_u, self.min_n, self.min_p = min_requirements
+        # variable to check the number of times regen because of min req
+        self.min_count = 0
         # Decide to use all special characters or not
         if self.use_all_special is True:
             self.s_characters = list(string.punctuation)
@@ -48,14 +50,58 @@ class Pwd(object):
         """If the object itself is called, return the pwd"""
         return self.pwd_o
 
+    def check_min_req(self) -> bool:
+        all_good = True
+        # lower
+        if self.min_c:
+            for i in self.letters:
+                # print(f"{i}")
+                if i not in self.pwd:
+                    all_good = False
+                elif i in self.pwd:
+                    all_good = True
+                    break
+        # upper
+        if self.min_u:
+            for i in self.letters_c:
+                # print(f"{i}")
+                if i not in self.pwd:
+                    all_good = False
+                elif i in self.pwd:
+                    all_good = True
+                    break
+        # number
+        if self.min_n:
+            for i in self.numbers:
+                # print(f"{i}")
+                if i not in self.pwd:
+                    all_good = False
+                elif i in self.pwd:
+                    all_good = True
+                    break
+        # special
+        if self.min_p:
+            for i in self.s_characters:
+                # print(f"{i}")
+                if i not in self.pwd:
+                    all_good = False
+                elif i in self.pwd:
+                    all_good = True
+                    break
+        return all_good
+
     def generator(self) -> None:
         """Generate the password itself"""
         self.pwd = []  # Resets self.pwd list
+        self.min_count += 1
         for _ in range(self.length):
             self.pwd.insert(
                 len(self.alternatives) + 1,
                 self.alternatives[random.randint(0, len(self.alternatives)) - 1],
             )
+        if not self.check_min_req():
+            self.generator()
+        # print(f"Ran number of times: {self.min_count}")
         return None
 
     def pwd_str(self) -> None:
@@ -143,7 +189,8 @@ def main() -> None:
     min_requirements.append(toggle_flags(args.n))
     min_requirements.append(toggle_flags(args.p))
 
-    # Check if the all flag was used, and set all in min_requirements to True if all flag was used
+    # Check if the all flag was used, and set all in min_requirements to 
+    # True if all flag was used
     min_one_each = toggle_flags(args.a)
     if min_one_each:
         for i in range(len(min_requirements)):
@@ -157,7 +204,12 @@ def main() -> None:
         )  # New password
         pyperclip.copy(new_password.pwd_o)  # Copy to clipboard
         print(
-            f"New password(length: {new_password.length}, all_special: {new_password.use_all_special})\n\n{new_password}\n"
+            f"\nNew password(length: {new_password.length}, all_special: "
+            f"{new_password.use_all_special})\n\nMinimum requirements:\n"
+            f"Lowercase-{new_password.min_c}\nUppercase-{new_password.min_u}\n"
+            f"Number-{new_password.min_n}\nSpecialchar-{new_password.min_p}\n\n"
+            f"(Ran {new_password.min_count} times to ensure min. req.)\n\n"
+            f"{new_password}\n"
         )
         ans = input(f"(Copied to clipboard, y to exit, any to regenerate) ")
         if ans == "y":
