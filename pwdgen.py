@@ -6,6 +6,7 @@
 import argparse
 import random
 import string
+
 import pyperclip
 
 
@@ -20,13 +21,15 @@ def toggle_flags(arg) -> bool:
 class Pwd(object):
     """The pwd class. used to generate and store the password"""
 
-    def __init__(self, length, use_all_special) -> None:
+    def __init__(self, length, use_all_special, min_requirements) -> None:
         self.length = length  # Num. of characters
         self.use_all_special = use_all_special  # Use all special characters
         self.pwd_o = ""  # The output string for the password
         self.letters = list(string.ascii_letters[:26])
         self.letters_c = list(string.ascii_letters[26:])
         self.numbers = list(string.digits)
+        # lower, upper, number, special
+        self.min_c, self.min_u, self.min_n, self.min_p = min_requirements
         # Decide to use all special characters or not
         if self.use_all_special is True:
             self.s_characters = list(string.punctuation)
@@ -91,31 +94,31 @@ def main() -> None:
         "-c",
         help="Flag for must-have at least 1 lower case characters",
         action="store_const",
-        const=False,
+        const=True,
     )
     parser.add_argument(
         "-u",
         help="Flag for must-have at least 1 upper case characters",
         action="store_const",
-        const=False,
+        const=True,
     )
     parser.add_argument(
         "-n",
         help="Flag for must-have at least 1 number",
         action="store_const",
-        const=False,
+        const=True,
     )
     parser.add_argument(
         "-p",
         help="Flag for must-have at least 1 special",
         action="store_const",
-        const=False,
+        const=True,
     )
     parser.add_argument(
         "-a",
         help="Flag for must-have at least 1 all types",
         action="store_const",
-        const=False,
+        const=True,
     )
     args = parser.parse_args()
 
@@ -149,7 +152,9 @@ def main() -> None:
         pass
 
     while True:
-        new_password = Pwd(pwd_length, use_all_special)  # New password
+        new_password = Pwd(
+            pwd_length, use_all_special, min_requirements
+        )  # New password
         pyperclip.copy(new_password.pwd_o)  # Copy to clipboard
         print(
             f"New password(length: {new_password.length}, all_special: {new_password.use_all_special})\n\n{new_password}\n"
