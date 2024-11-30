@@ -55,39 +55,43 @@ class Pwd(object):
         # lower
         if self.min_c:
             for i in self.letters:
-                # print(f"{i}")
                 if i not in self.pwd:
                     all_good = False
                 elif i in self.pwd:
                     all_good = True
                     break
+            if all_good is False:
+                return False
         # upper
         if self.min_u:
             for i in self.letters_c:
-                # print(f"{i}")
                 if i not in self.pwd:
                     all_good = False
                 elif i in self.pwd:
                     all_good = True
                     break
+            if all_good is False:
+                return False
         # number
         if self.min_n:
             for i in self.numbers:
-                # print(f"{i}")
                 if i not in self.pwd:
                     all_good = False
                 elif i in self.pwd:
                     all_good = True
                     break
+            if all_good is False:
+                return False
         # special
         if self.min_p:
             for i in self.s_characters:
-                # print(f"{i}")
                 if i not in self.pwd:
                     all_good = False
                 elif i in self.pwd:
                     all_good = True
                     break
+            if all_good is False:
+                return False
         return all_good
 
     def generator(self) -> None:
@@ -100,8 +104,8 @@ class Pwd(object):
                 self.alternatives[random.randint(0, len(self.alternatives)) - 1],
             )
         if not self.check_min_req():
+            print(self.min_count)
             self.generator()
-        # print(f"Ran number of times: {self.min_count}")
         return None
 
     def pwd_str(self) -> None:
