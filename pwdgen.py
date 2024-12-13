@@ -19,7 +19,7 @@ def toggle_flags(arg) -> bool:
 
 
 class Pwd(object):
-    """The pwd class. used to generate and store the password"""
+    """The pwd class. Used to generate and store the password"""
 
     def __init__(self, length, use_all_special, min_requirements) -> None:
         self.length = length  # Num. of characters
@@ -51,6 +51,7 @@ class Pwd(object):
         return self.pwd_o
 
     def check_min_req(self) -> bool:
+        """ Checks if the minimum requirements are met"""
         all_good = True
         # lower
         if self.min_c:
