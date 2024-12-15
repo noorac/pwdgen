@@ -1,5 +1,7 @@
 # pwdgen:
 # This program will generate passwords of varying length, and thus varying strength!
+# Supports minimum requirement(e.g. at least one special character
+# Will automatically put the pwd in the clipboard upon generation
 # Dependency arch xclip for X users, or wl-clipboard for wayland users, pyperclip
 
 
