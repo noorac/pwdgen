@@ -123,7 +123,8 @@ def main() -> None:
     """
     Main function::
     First check if a system argument was given, and try to make it an integer.
-    If not an integer or no argument, set default password length to 12 chars
+    If not an integer or no argument, set default password length to 12 chars,
+    limited special characters, and no requirements.
     """
     # Create parser object
     parser = argparse.ArgumentParser(
