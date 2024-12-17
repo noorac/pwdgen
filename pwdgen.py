@@ -170,7 +170,7 @@ def main() -> None:
     )
     parser.add_argument(
         "-a",
-        help="Flag for must-have at least 1 all types",
+        help="Flag for must-have at least 1 of all types",
         action="store_const",
         const=True,
     )
