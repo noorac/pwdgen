@@ -55,7 +55,7 @@ class Pwd(object):
     def check_min_req(self) -> bool:
         """ Checks if the minimum requirements are met"""
         all_good = True
-        # lower
+        # checking lower
         if self.min_c:
             for i in self.letters:
                 if i not in self.pwd:
@@ -65,7 +65,7 @@ class Pwd(object):
                     break
             if all_good is False:
                 return False
-        # upper
+        # checking upper
         if self.min_u:
             for i in self.letters_c:
                 if i not in self.pwd:
@@ -75,7 +75,7 @@ class Pwd(object):
                     break
             if all_good is False:
                 return False
-        # number
+        # checking number
         if self.min_n:
             for i in self.numbers:
                 if i not in self.pwd:
@@ -85,7 +85,7 @@ class Pwd(object):
                     break
             if all_good is False:
                 return False
-        # special
+        # checking special
         if self.min_p:
             for i in self.s_characters:
                 if i not in self.pwd:
