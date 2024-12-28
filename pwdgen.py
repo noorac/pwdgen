@@ -219,7 +219,7 @@ def main() -> None:
             f"(Ran {new_password.min_count} times to ensure min. req.)\n\n"
             f"{new_password}\n"
         )
-        ans = input(f"(Copied to clipboard, y to exit, any to regenerate) ")
+        ans = input(f"(Copied to clipboard, y to exit, any other to regenerate) ")
         if ans == "y":
             break  # Pwd acceptable
         else:
